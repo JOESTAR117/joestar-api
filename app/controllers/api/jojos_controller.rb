@@ -18,7 +18,7 @@ class Api::JojosController < ApplicationController
     @jojo = Jojo.new(jojo_params)
 
     if @jojo.save
-      render json: @jojo, status: :created, location: @jojo
+      render json: @jojo, status: :created, location: api_jojo_url(@jojo)
     else
       render json: @jojo.errors, status: :unprocessable_entity
     end
