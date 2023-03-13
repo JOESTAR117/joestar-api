@@ -1,5 +1,5 @@
-class JojosController < ApplicationController
-  before_action :set_jojo, only: [:show, :update, :destroy]
+class Api::JojosController < ApplicationController
+  before_action :set_jojo, only: %i[show update destroy]
 
   # GET /jojos
   def index
@@ -39,13 +39,14 @@ class JojosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_jojo
-      @jojo = Jojo.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def jojo_params
-      params.require(:jojo).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_jojo
+    @jojo = Jojo.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def jojo_params
+    params.require(:jojo).permit(:name)
+  end
 end
