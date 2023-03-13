@@ -1,0 +1,2 @@
+class Jojo < ApplicationRecord
+end
