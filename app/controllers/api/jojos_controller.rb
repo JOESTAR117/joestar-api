@@ -3,7 +3,7 @@ class Api::JojosController < ApplicationController
 
   # GET /jojos
   def index
-    @jojos = Jojo.all.sorted_by_name
+    @jojos = Jojo.search(params[:term]).sorted_by_name
 
     render json: @jojos
   end
