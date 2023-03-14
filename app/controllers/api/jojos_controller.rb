@@ -1,9 +1,12 @@
 class Api::JojosController < ApplicationController
+  include Authenticable
+
+  before_action :authenticate_with_token, except: %i[index show]
   before_action :set_jojo, only: %i[show update destroy]
 
   # GET /jojos
   def index
-    @jojos = Jojo.all
+    @jojos = Jojo.search(params[:term]).sorted_by_name
 
     render json: @jojos
   end
@@ -18,7 +21,7 @@ class Api::JojosController < ApplicationController
     @jojo = Jojo.new(jojo_params)
 
     if @jojo.save
-      render json: @jojo, status: :created, location: @jojo
+      render json: @jojo, status: :created, location: api_jojo_url(@jojo)
     else
       render json: @jojo.errors, status: :unprocessable_entity
     end
