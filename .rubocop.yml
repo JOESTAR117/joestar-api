@@ -7,3 +7,6 @@ Style/ClassAndModuleChildren:
 
 Style/Documentation:
   Enabled: false
+
+Style/GuardClause:
+  Enabled: false
