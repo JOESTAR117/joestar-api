@@ -1,4 +1,7 @@
 class Api::JojosController < ApplicationController
+  include Authenticable
+
+  before_action :authenticate_with_token, except: %i[index show]
   before_action :set_jojo, only: %i[show update destroy]
 
   # GET /jojos
