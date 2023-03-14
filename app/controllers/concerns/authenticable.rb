@@ -12,6 +12,6 @@ module Authenticable
   end
 
   def valid_token?
-    @token.present?
+    @token.present? && @token == Rails.application.credentials.valid_token
   end
 end
