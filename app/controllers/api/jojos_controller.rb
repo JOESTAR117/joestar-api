@@ -1,12 +1,12 @@
 class Api::JojosController < ApplicationController
   include Authenticable
 
-  before_action :authenticate_with_token, except: %i[index show]
+  before_action :authenticate_with_token
   before_action :set_jojo, only: %i[show update destroy]
 
   # GET /jojos
   def index
-    @jojos = Jojo.search(params[:term]).sorted_by_name
+    @jojos = Jojo.by_token(@token).search(params[:term]).sorted_by_name
 
     render json: @jojos
   end
@@ -18,7 +18,7 @@ class Api::JojosController < ApplicationController
 
   # POST /jojos
   def create
-    @jojo = Jojo.new(jojo_params)
+    @jojo = Jojo.new(jojo_params.to_h.merge!({ token: @token }))
 
     if @jojo.save
       render json: @jojo, status: :created, location: api_jojo_url(@jojo)
@@ -45,7 +45,7 @@ class Api::JojosController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_jojo
-    @jojo = Jojo.find(params[:id])
+    @jojo = Jojo.by_token(@token).find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
